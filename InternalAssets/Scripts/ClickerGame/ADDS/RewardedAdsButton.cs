@@ -74,6 +74,7 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
             {
                 Debug.Log("Your reward is Nothing");
                 MainMenu.Bonus = 2;
+                MainMenu.BonusTimer = 60;
             }
         }
     }

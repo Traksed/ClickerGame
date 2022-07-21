@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using System.Threading;
 using InternalAssets.Scripts.ClickerGame.ADDS;
 
 namespace InternalAssets.Scripts.ClickerGame
@@ -23,9 +24,11 @@ namespace InternalAssets.Scripts.ClickerGame
         public RewardedAdsButton rAdButton;
         private int _skinNumber;
         private Save sv = new Save();
-        public InterstitialAds ad;
+        //public InterstitialAds ad;
         public  static int Bonus = 1;
-        
+        public static float BonusTimer; 
+        [SerializeField] private TMP_Text timerText;
+
 
 
         private void Awake()
@@ -76,15 +79,48 @@ namespace InternalAssets.Scripts.ClickerGame
             rAdButton.LoadAd(); 
         }
         
+        private void Update()
+        {
+            
+
+            if (_score >= 10000)
+            {
+                scoreText[0].text = _score/1000 + "k Coins";
+            }
+            else
+            {
+                scoreText[0].text = _score + " Coins";
+            }
+            
+            if (_clickIncome >= 10000)
+            {
+                scoreText[1].text = _clickIncome/1000 + "k per click";
+            }
+            else
+            {
+                scoreText[1].text = _clickIncome + " per click";
+            }
+
+            scoreText[2].text = _passIncome + "/sec";
+            
+            if (BonusTimer > 0)
+            {
+                BonusTimer -= 1 * Time.deltaTime;
+                timerText.text = BonusTimer.ToString("0") + "S";
+            }
+
+        }
+        
         // Main Buttons
         // -------------------------------------------------------------------------------------------------------
+        
         
         public void SettingsButton()
         {
             objects[0].SetActive(false);
             objects[1].SetActive(false);
             objects[5].SetActive(true);
-            ad.ShowAd();
+            //ad.ShowAd();
         }
         
         public void QuitButton()
@@ -622,7 +658,7 @@ namespace InternalAssets.Scripts.ClickerGame
         }
         
         // -------------------------------------------------------------------------------------------------------
-
+        
         
         // Farm Coroutine
         // -------------------------------------------------------------------------------------------------------
@@ -637,7 +673,7 @@ namespace InternalAssets.Scripts.ClickerGame
         
         
         // -------------------------------------------------------------------------------------------------------
-
+        
         public void RefreshScore()
         {
             _score = 0;
@@ -656,31 +692,6 @@ namespace InternalAssets.Scripts.ClickerGame
             _skinNumber = 0;
         }
         
-        private void Update()
-        {
-            
-
-            if (_score >= 10000)
-            {
-                scoreText[0].text = _score/1000 + "k Coins";
-            }
-            else
-            {
-                scoreText[0].text = _score + " Coins";
-            }
-            
-            if (_clickIncome >= 10000)
-            {
-                scoreText[1].text = _clickIncome/1000 + "k per click";
-            }
-            else
-            {
-                scoreText[1].text = _clickIncome + " per click";
-            }
-
-            scoreText[2].text = _passIncome + "/sec";
-
-        }
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         private void OnApplicationPause(bool pause)
