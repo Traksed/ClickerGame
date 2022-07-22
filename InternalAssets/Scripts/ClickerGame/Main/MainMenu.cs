@@ -21,9 +21,9 @@ namespace InternalAssets.Scripts.ClickerGame
         private TimeSpan _ts;
         [SerializeField] private Image skinButton;
         [SerializeField] private Sprite[] skinPool;
-        public RewardedAdsButton rAdButton;
+        //public RewardedAdsButton rAdButton;
         private int _skinNumber;
-        private Save sv = new Save();
+        private Save sv = new();
         //public InterstitialAds ad;
         public  static int Bonus = 1;
         public static float BonusTimer; 
@@ -33,13 +33,7 @@ namespace InternalAssets.Scripts.ClickerGame
 
         private void Awake()
         {
-            if (_clickIncome == 0)
-            {
-                _clickIncome = 1;
-            }
-            
-            
-            
+
             if (PlayerPrefs.HasKey("SAVE"))
             {
                 sv = JsonUtility.FromJson<Save>(PlayerPrefs.GetString("SAVE"));
@@ -53,6 +47,16 @@ namespace InternalAssets.Scripts.ClickerGame
                 {
                     isAchiev[i] = sv.isAchievements[i];
                 }
+            }
+            else
+            {
+                sv = new Save();
+                _score = sv.score;
+                _clickScore = sv.clickScore;
+                _clickIncome = sv.clickIncome;
+                _totalScore = sv.totalScore;
+                _passIncome = sv.passIncome;
+                _skinNumber = sv.skinNumber;
             }
 
             if (PlayerPrefs.HasKey("LastSession"))
@@ -76,7 +80,7 @@ namespace InternalAssets.Scripts.ClickerGame
             
             skinButton.sprite = skinPool[_skinNumber];
             StartCoroutine(FarmCoroutine());
-            rAdButton.LoadAd(); 
+            //rAdButton.LoadAd(); 
         }
         
         private void Update()
@@ -108,12 +112,34 @@ namespace InternalAssets.Scripts.ClickerGame
                 BonusTimer -= 1 * Time.deltaTime;
                 timerText.text = BonusTimer.ToString("0") + "S";
             }
+            else
+            {
+                if (Bonus <= 1) return;
+                Bonus = 1;
+            }
+
 
         }
         
         // Main Buttons
         // -------------------------------------------------------------------------------------------------------
         
+        public void SaveButton()
+        {
+            sv.score = _score;
+            sv.clickIncome = _clickIncome;
+            sv.clickScore = _clickScore;
+            sv.passIncome = _passIncome;
+            sv.totalScore = _totalScore;
+            sv.skinNumber = _skinNumber;
+            sv.isAchievements = new bool[16];
+            for (int i = 0; i < 16; i++)
+            {
+                sv.isAchievements[i] = isAchiev[i];
+            }
+            PlayerPrefs.SetString("SAVE", JsonUtility.ToJson(sv));
+            PlayerPrefs.SetString("LastSession", DateTime.Now.ToString());
+        }
         
         public void SettingsButton()
         {
@@ -674,7 +700,7 @@ namespace InternalAssets.Scripts.ClickerGame
         
         // -------------------------------------------------------------------------------------------------------
         
-        public void RefreshScore()
+        /*public void RefreshScore()
         {
             _score = 0;
             _totalScore = 0;
@@ -690,7 +716,7 @@ namespace InternalAssets.Scripts.ClickerGame
                 }
             }
             _skinNumber = 0;
-        }
+        }*/
         
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -743,8 +769,8 @@ public class Save
 {
     public int score;
     public int totalScore;
-    public int passIncome;
-    public int clickIncome;
+    public int passIncome ;
+    public int clickIncome = 1;
     public int clickScore;
     public int skinNumber;
     public bool[] isAchievements;

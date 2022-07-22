@@ -72,7 +72,7 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
         {
             if (adUnitID.Equals(adID) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
             {
-                Debug.Log("Your reward is Nothing");
+                Debug.Log("Your reward is x2");
                 MainMenu.Bonus = 2;
                 MainMenu.BonusTimer = 60;
             }

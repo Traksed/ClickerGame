@@ -22,14 +22,14 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
         {
             Advertisement.Banner.SetPosition(bannerPosition);
             LoadBanner();
-            StartCoroutine(LoadAdBanner());
+            //StartCoroutine(LoadAdBanner());
         }
 
-        private IEnumerator LoadAdBanner()
-        {
-            yield return new WaitForSeconds(1f);
-            LoadBanner();
-        }
+        // private IEnumerator LoadAdBanner()
+        // {
+        //     yield return new WaitForSeconds(1f);
+        //     LoadBanner();
+        // }
 
         public void LoadBanner()
         {
