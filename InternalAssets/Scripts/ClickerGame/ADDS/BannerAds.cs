@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -9,11 +8,11 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
         [SerializeField] BannerPosition bannerPosition;
         [SerializeField] private string androidAdID = "Banner_Android";
         [SerializeField] private string iOSAdID = "Banner_iOS";
-        private string adID;
+        private string _adID;
         
         private void Awake()
         {
-            adID = (Application.platform == RuntimePlatform.IPhonePlayer)
+            _adID = (Application.platform == RuntimePlatform.IPhonePlayer)
                 ? iOSAdID
                 : androidAdID;
         }
@@ -22,14 +21,7 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
         {
             Advertisement.Banner.SetPosition(bannerPosition);
             LoadBanner();
-            //StartCoroutine(LoadAdBanner());
         }
-
-        // private IEnumerator LoadAdBanner()
-        // {
-        //     yield return new WaitForSeconds(1f);
-        //     LoadBanner();
-        // }
 
         public void LoadBanner()
         {
@@ -39,7 +31,7 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
                 errorCallback = OnBannerError
             };
             
-            Advertisement.Banner.Load(adID, options);
+            Advertisement.Banner.Load(_adID, options);
         }
 
         private void OnBannerLoaded()
@@ -57,7 +49,7 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
 
         }
 
-        public void ShowBannerAd()
+        private void ShowBannerAd()
         {
 
             BannerOptions options = new BannerOptions
@@ -67,7 +59,7 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
                 hideCallback = OnBannerHided,
                 showCallback = OnBannerShown
             };
-            Advertisement.Banner.Show(adID,options);
+            Advertisement.Banner.Show(_adID,options);
         }
 
         private void OnBannerClicked()

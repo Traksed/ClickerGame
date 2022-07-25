@@ -8,7 +8,7 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
         [SerializeField] private string androidGameID = "4848673";
         [SerializeField] private string iOSGameID = "4848672";
         [SerializeField] private bool testMode = true;
-        private string gameID;
+        private string _gameID;
         private IUnityAdsInitializationListener _unityAdsInitializationListenerImplementation;
 
         private void Awake()
@@ -17,10 +17,10 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
             
         }
 
-        public void InitializeAds()
+        private void InitializeAds()
         {
-            gameID = (Application.platform == RuntimePlatform.IPhonePlayer) ? iOSGameID : androidGameID;
-            Advertisement.Initialize(gameID, testMode, this);
+            _gameID = (Application.platform == RuntimePlatform.IPhonePlayer) ? iOSGameID : androidGameID;
+            Advertisement.Initialize(_gameID, !testMode, this);
         }
 
         public void OnInitializationComplete()

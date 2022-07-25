@@ -21,10 +21,9 @@ namespace InternalAssets.Scripts.ClickerGame
         private TimeSpan _ts;
         [SerializeField] private Image skinButton;
         [SerializeField] private Sprite[] skinPool;
-        //public RewardedAdsButton rAdButton;
+        public RewardedAdsButton rAdButton;
         private int _skinNumber;
         private Save sv = new();
-        //public InterstitialAds ad;
         public  static int Bonus = 1;
         public static float BonusTimer; 
         [SerializeField] private TMP_Text timerText;
@@ -80,7 +79,6 @@ namespace InternalAssets.Scripts.ClickerGame
             
             skinButton.sprite = skinPool[_skinNumber];
             StartCoroutine(FarmCoroutine());
-            //rAdButton.LoadAd(); 
         }
         
         private void Update()
@@ -120,10 +118,7 @@ namespace InternalAssets.Scripts.ClickerGame
 
 
         }
-        
-        // Main Buttons
-        // -------------------------------------------------------------------------------------------------------
-        
+
         public void SaveButton()
         {
             sv.score = _score;
@@ -200,10 +195,6 @@ namespace InternalAssets.Scripts.ClickerGame
             
         }
         
-        // -------------------------------------------------------------------------------------------------------
-        
-        // Achievement Panel Vision
-        // -------------------------------------------------------------------------------------------------------
         private void GetScoreAchievements()
         {
             if (_totalScore >= 1000 && !isAchiev[0])
@@ -306,10 +297,6 @@ namespace InternalAssets.Scripts.ClickerGame
                 achievements[15].interactable = true;
             }
         }
-        // Achievement Panel Functions
-        // -------------------------------------------------------------------------------------------------------
-        
-        // Total Score Achievements
         public void GetAchiev1()
         {
             isAchiev[0] = !isAchiev[0];
@@ -327,7 +314,6 @@ namespace InternalAssets.Scripts.ClickerGame
             achievCollectText[1].text = "Collected";
             skinButton.sprite = skinPool[2];
             _skinNumber = 2;
-
         }
         
         public void GetAchiev3()
@@ -350,7 +336,6 @@ namespace InternalAssets.Scripts.ClickerGame
 
         }
         
-        // Upgrade Achievements
         public void GetAchiev5()
         {
             isAchiev[4] = !isAchiev[4];
@@ -394,7 +379,6 @@ namespace InternalAssets.Scripts.ClickerGame
 
         }
         
-        // Total Click Achievements
         public void GetAchiev9()
         {
             isAchiev[8] = !isAchiev[8];
@@ -432,7 +416,6 @@ namespace InternalAssets.Scripts.ClickerGame
 
         }
         
-        // Farm Achievements
         public void GetAchiev13()
         {
             isAchiev[12] = !isAchiev[12];
@@ -473,10 +456,6 @@ namespace InternalAssets.Scripts.ClickerGame
 
         }
         
-        // -------------------------------------------------------------------------------------------------------
-        
-        // Upgrades Panel Vision
-        // -------------------------------------------------------------------------------------------------------
         private void GetUpgrades()
         {
             if (isAchiev[4])
@@ -502,12 +481,6 @@ namespace InternalAssets.Scripts.ClickerGame
 
         }
         
-        // -------------------------------------------------------------------------------------------------------
-        
-        
-        // Upgrades Panel Functions
-        // -------------------------------------------------------------------------------------------------------
-
         public void GetUpgrade1()
         {
             if (_score < 100) return;
@@ -595,11 +568,6 @@ namespace InternalAssets.Scripts.ClickerGame
             _clickIncome += 5000;
 
         }
-        // -------------------------------------------------------------------------------------------------------
-
-        
-        // Farm Panel Vision
-        // -------------------------------------------------------------------------------------------------------
         private void GetFarms() 
         {
             if (isAchiev[12])
@@ -621,12 +589,6 @@ namespace InternalAssets.Scripts.ClickerGame
             farms[8].interactable = true;
 
         }
-        
-        // -------------------------------------------------------------------------------------------------------
-
-        // Farm Panel Functions
-        // -------------------------------------------------------------------------------------------------------
-        
         public void buyFarm1()
         {
             if (_score < 1000) return;
@@ -682,13 +644,6 @@ namespace InternalAssets.Scripts.ClickerGame
             _score -= 5000000;
             _passIncome += 5000;
         }
-        
-        // -------------------------------------------------------------------------------------------------------
-        
-        
-        // Farm Coroutine
-        // -------------------------------------------------------------------------------------------------------
-
         private IEnumerator FarmCoroutine()
         {
             yield return new WaitForSeconds(1);
@@ -696,29 +651,6 @@ namespace InternalAssets.Scripts.ClickerGame
             _totalScore += _passIncome * Bonus;
             StartCoroutine(FarmCoroutine());
         }
-        
-        
-        // -------------------------------------------------------------------------------------------------------
-        
-        /*public void RefreshScore()
-        {
-            _score = 0;
-            _totalScore = 0;
-            _clickIncome = 1;
-            _clickScore = 0;
-            _passIncome = 0;
-            
-            for (int i = 0; i < 16; i++)
-            {
-                if (isAchiev[i])
-                {
-                    isAchiev[i] = !isAchiev[i];
-                }
-            }
-            _skinNumber = 0;
-        }*/
-        
-
 #if UNITY_ANDROID && !UNITY_EDITOR
         private void OnApplicationPause(bool pause)
         {
@@ -761,8 +693,6 @@ namespace InternalAssets.Scripts.ClickerGame
         
     }
     
-    
-   
 }
 [Serializable]
 public class Save

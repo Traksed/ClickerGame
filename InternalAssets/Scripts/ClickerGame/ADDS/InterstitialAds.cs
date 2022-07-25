@@ -8,26 +8,25 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
     {
         [SerializeField] private string androidAdID = "Interstitial_Android";
         [SerializeField] private string iOSAdID = "Interstitial_iOS";
-        private string adID;
+        private string _adID;
 
         private void Awake()
         {
-            adID = (Application.platform == RuntimePlatform.IPhonePlayer)
+            _adID = (Application.platform == RuntimePlatform.IPhonePlayer)
                 ? iOSAdID
                 : androidAdID;
-            //LoadAd();
         }
 
-        public void LoadAd()
+        private void LoadAd()
         {
-            Debug.Log("Loading Ad: " + adID);
-            Advertisement.Load(adID, this);
+            Debug.Log("Loading Ad: " + _adID);
+            Advertisement.Load(_adID, this);
         }
         
         public void ShowAd()
         {
-            Debug.Log("Loading Ad: " + adID);
-            Advertisement.Show(adID, this);
+            Debug.Log("Loading Ad: " + _adID);
+            Advertisement.Show(_adID, this);
         }
 
         

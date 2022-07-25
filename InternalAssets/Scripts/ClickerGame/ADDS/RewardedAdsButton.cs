@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.UI;
@@ -10,14 +9,13 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
         [SerializeField] private Button showAdButton;
         [SerializeField] private string androidAdID = "Rewarded_Android";
         [SerializeField] private string iOSAdID = "Rewarded_iOS";
-        private string adID;
+        private string _adID;
         
         private void Awake()
         {
-            adID = (Application.platform == RuntimePlatform.IPhonePlayer)
+            _adID = (Application.platform == RuntimePlatform.IPhonePlayer)
                 ? iOSAdID
                 : androidAdID;
-            //showAdButton.interactable = false;
         }
 
         private void Start()
@@ -25,22 +23,22 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
             LoadAd();
         }
 
-        public void LoadAd()
+        private void LoadAd()
         {
-            Debug.Log("Loading Ad: " + adID);
-            Advertisement.Load(adID, this);
+            Debug.Log("Loading Ad: " + _adID);
+            Advertisement.Load(_adID, this);
         }
         
         public void ShowAd()
         {
-            Advertisement.Show(adID, this);
+            Advertisement.Show(_adID, this);
         }
 
         public void OnUnityAdsAdLoaded(string adUnitID)
         {
             Debug.Log("Rewarded Ads Loaded.");
 
-            if (adUnitID.Equals(adID))
+            if (adUnitID.Equals(_adID))
             {
                 showAdButton.onClick.AddListener(ShowAd);
 
@@ -70,12 +68,10 @@ namespace InternalAssets.Scripts.ClickerGame.ADDS
 
         public void OnUnityAdsShowComplete(string adUnitID, UnityAdsShowCompletionState showCompletionState)
         {
-            if (adUnitID.Equals(adID) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
-            {
-                Debug.Log("Your reward is x2");
-                MainMenu.Bonus = 2;
-                MainMenu.BonusTimer = 60;
-            }
+            if (!adUnitID.Equals(_adID) || !showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED)) return;
+            Debug.Log("Your reward is x2");
+            MainMenu.Bonus = 2;
+            MainMenu.BonusTimer = 60;
         }
     }
 }
